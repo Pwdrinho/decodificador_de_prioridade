@@ -1,0 +1,41 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+entity tb_decodificador_de_prioridade is
+end entity;
+
+architecture Testbench of tb_decodificador_de_prioridade is
+    -- Sinais para interligar com o componente
+    signal D0, D1, D2, D3 : STD_LOGIC := '0';
+    signal X0, X1, int    : STD_LOGIC;
+begin
+
+    -- Instância do codificador
+    DUT: entity work.PriorityEncoder4(Behavioral)
+        port map (
+            D0  => D0,
+            D1  => D1,
+            D2  => D2,
+            D3  => D3,
+            X0  => X0,
+            X1  => X1,
+            int => int
+        );
+
+    -- Processo de estímulo
+    stimulus: process
+    begin
+        -- Varre todas as combinações possíveis de entradas (de 0000 até 1111)
+        for i in 0 to 15 loop
+            -- Atribuição dos bits
+            D0 <= '1' when (i and 8) /= 0 else '0'; -- Bit mais significativo
+            D1 <= '1' when (i and 4) /= 0 else '0';
+            D2 <= '1' when (i and 2) /= 0 else '0';
+            D3 <= '1' when (i and 1) /= 0 else '0';
+
+            wait for 10 ns;
+        end loop;
+
+        wait;
+    end process;
+end architecture;
