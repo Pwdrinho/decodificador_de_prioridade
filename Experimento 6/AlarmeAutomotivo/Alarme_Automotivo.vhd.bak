@@ -1,0 +1,22 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+entity Alarme_Automotivo is
+    Port ( 
+				Porta   : in  STD_LOGIC;  -- Porta do motorista (ativa em '0')
+				Ignicao : in  STD_LOGIC;  -- Ignição (ativa em '0')
+				Farol   : in  STD_LOGIC;  -- Faróis	(ativa em '0')
+				Alarme  : out STD_LOGIC   -- Saída do alarme (LED ou Buzzer)(ativa em '0')
+			);
+end Alarme_Automotivo;
+
+architecture Behavior of Alarme_Automotivo is
+begin
+    Alarme <= '0' when
+	 ((Farol = '0' AND Ignicao = '1') 
+	 OR 
+	 (Porta = '0' AND Ignicao = '0'))
+			else '1';
+			
+	--Alarme <= NOT ((NOT Farol AND Ignicao) OR (NOT Porta AND NOT Ignicao));
+end Behavior;

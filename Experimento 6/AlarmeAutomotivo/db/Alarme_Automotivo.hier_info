@@ -1,0 +1,8 @@
+|Alarme_Automotivo
+Farol => Alarme.IN0
+Ignicao => Alarme.IN1
+Ignicao => Alarme.IN0
+Porta => Alarme.IN1
+Alarme <= Alarme.DB_MAX_OUTPUT_PORT_TYPE
+
+
