@@ -1,0 +1,8 @@
+|Alarme_Automotivo
+Porta => process_0.IN0
+Ignicao => process_0.IN1
+Ignicao => process_0.IN0
+Farol => process_0.IN1
+Alarme <= process_0.DB_MAX_OUTPUT_PORT_TYPE
+
+

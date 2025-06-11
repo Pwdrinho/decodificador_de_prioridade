@@ -1,0 +1,14 @@
+vendor_name = ModelSim
+source_file = 1, /home/aluno/pwdaltera/Experimento 6/Alarme_Automotivo.vhd
+source_file = 1, /home/aluno/pwdaltera/Experimento 6/tb_Alarme_Automotivo.vhd
+source_file = 1, /home/aluno/pwdaltera/Experimento 6/db/Alarme_Automotivo.cbx.xml
+source_file = 1, /home/aluno/altera/13.1/quartus/libraries/vhdl/ieee/prmtvs_b.vhd
+source_file = 1, /home/aluno/altera/13.1/quartus/libraries/vhdl/ieee/prmtvs_p.vhd
+source_file = 1, /home/aluno/altera/13.1/quartus/libraries/vhdl/ieee/timing_b.vhd
+source_file = 1, /home/aluno/altera/13.1/quartus/libraries/vhdl/ieee/timing_p.vhd
+design_name = Alarme_Automotivo
+instance = comp, \Alarme~output\, Alarme~output, Alarme_Automotivo, 1
+instance = comp, \Porta~input\, Porta~input, Alarme_Automotivo, 1
+instance = comp, \Farol~input\, Farol~input, Alarme_Automotivo, 1
+instance = comp, \Ignicao~input\, Ignicao~input, Alarme_Automotivo, 1
+instance = comp, \process_0~0\, process_0~0, Alarme_Automotivo, 1
