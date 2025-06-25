@@ -1,0 +1,76 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+entity tb_cronometro is
+end tb_cronometro;
+
+architecture sim of tb_cronometro is
+
+    -- Sinais para conectar à UUT (Unit Under Test)
+    signal clk        : STD_LOGIC := '0';
+    signal reset      : STD_LOGIC := '0';
+    signal start_stop : STD_LOGIC := '0';
+    signal seg_anodo  : STD_LOGIC_VECTOR(3 downto 0);
+    signal seg_catodo : STD_LOGIC_VECTOR(6 downto 0);
+
+    -- Clock mais rápido para acelerar simulação
+    constant CLK_PERIOD : time := 20 ns;  -- 50 MHz
+
+begin
+
+    -- Instancia o cronômetro (UUT)
+    uut: entity work.cronometro
+        port map (
+            clk        => clk,
+            reset      => reset,
+            start_stop => start_stop,
+            seg_anodo  => seg_anodo,
+            seg_catodo => seg_catodo
+        );
+
+    -- Geração do clock
+    clk_process : process
+    begin
+        while now < 10 ms loop
+            clk <= '0';
+            wait for CLK_PERIOD / 2;
+            clk <= '1';
+            wait for CLK_PERIOD / 2;
+        end loop;
+        wait;
+    end process;
+
+    -- Estímulos
+    stim_proc: process
+    begin
+        -- Reset inicial
+        reset <= '1';
+        wait for 100 ns;
+        reset <= '0';
+
+        -- Dá start (pulso de 1 ciclo)
+        wait for 100 ns;
+        start_stop <= '1';
+        wait for 20 ns;
+        start_stop <= '0';
+
+        -- Aguarda alguns segundos simulados
+        wait for 3 sec;
+
+        -- Dá stop (pulso de 1 ciclo)
+        start_stop <= '1';
+        wait for 20 ns;
+        start_stop <= '0';
+
+        -- Aguarda com cronômetro parado
+        wait for 2 sec;
+
+        -- Reset
+        reset <= '1';
+        wait for 100 ns;
+        reset <= '0';
+
+        wait;
+    end process;
+
+end sim;
