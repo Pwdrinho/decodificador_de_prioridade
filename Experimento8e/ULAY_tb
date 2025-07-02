@@ -1,0 +1,103 @@
+library IEEE;
+use IEEE.std_logic_1164.all;
+use IEEE.numeric_std.all;
+
+entity ula_tb is
+end ula_tb;
+
+architecture sim of ula_tb is
+    -- Component declaration
+    component ula is
+        port (
+            clk      : in  STD_LOGIC;
+            rst      : in  STD_LOGIC;
+            A, B     : in  STD_LOGIC;
+            SS       : in  STD_LOGIC;
+            c_out    : out STD_LOGIC;
+            over     : out STD_LOGIC;
+            oper     : out STD_LOGIC_VECTOR(1 downto 0);
+            display  : out STD_LOGIC_VECTOR(6 downto 0);
+            anode    : out STD_LOGIC_VECTOR(5 downto 0)
+        );
+    end component;
+
+    -- Signals for simulation
+    signal clk_tb     : STD_LOGIC := '0';
+    signal rst_tb     : STD_LOGIC := '0';
+    signal A_tb       : STD_LOGIC := '1';
+    signal B_tb       : STD_LOGIC := '1';
+    signal SS_tb      : STD_LOGIC := '1';
+    signal c_out_tb   : STD_LOGIC;
+    signal over_tb    : STD_LOGIC;
+    signal oper_tb    : STD_LOGIC_VECTOR(1 downto 0);
+    signal display_tb : STD_LOGIC_VECTOR(6 downto 0);
+    signal anode_tb   : STD_LOGIC_VECTOR(5 downto 0);
+
+begin
+    -- Instanciando a ULA
+    DUT: ula port map (
+        clk     => clk_tb,
+        rst     => rst_tb,
+        A       => A_tb,
+        B       => B_tb,
+        SS      => SS_tb,
+        c_out   => c_out_tb,
+        over    => over_tb,
+        oper    => oper_tb,
+        display => display_tb,
+        anode   => anode_tb
+    );
+
+    -- Clock de 10ns
+    clk_process : process
+    begin
+        while true loop
+            clk_tb <= '0';
+            wait for 5 ns;
+            clk_tb <= '1';
+            wait for 5 ns;
+        end loop;
+    end process;
+
+    -- Estímulos de entrada
+    stim_proc: process
+    begin
+        -- Reset
+        rst_tb <= '0';
+        wait for 20 ns;
+        rst_tb <= '1';
+
+        -- Teste: incrementar A duas vezes
+        wait for 20 ns;
+        A_tb <= '0'; wait for 10 ns; A_tb <= '1'; -- flanco de descida
+        wait for 20 ns;
+        A_tb <= '0'; wait for 10 ns; A_tb <= '1';
+
+        -- Teste: incrementar B uma vez
+        wait for 20 ns;
+        B_tb <= '0'; wait for 10 ns; B_tb <= '1';
+
+        -- Teste: operação 0 (SOMA)
+        wait for 40 ns;
+
+        -- Teste: mudar para operação 1 (SUB)
+        SS_tb <= '0'; wait for 10 ns; SS_tb <= '1';
+        wait for 20 ns;
+
+        -- Teste: mudar para operação 2 (AND)
+        SS_tb <= '0'; wait for 10 ns; SS_tb <= '1';
+        wait for 20 ns;
+
+        -- Teste: mudar para operação 3 (OR)
+        SS_tb <= '0'; wait for 10 ns; SS_tb <= '1';
+        wait for 20 ns;
+
+        -- Teste: voltar para operação 0 (ciclo completo)
+        SS_tb <= '0'; wait for 10 ns; SS_tb <= '1';
+        wait for 20 ns;
+
+        -- Final
+        wait;
+    end process;
+
+end sim;
